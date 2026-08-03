@@ -3,7 +3,9 @@
     <div class="card">
       <div class="card-header">
         <div class="title-box">
-          <div class="printer-name">
+          <div class="printer-name"> 
+            <i v-if="powerPlugStatus" class="fas fa-toggle-on power-icon" @click="togglePowerPlug()"></i>
+            <i v-else class="fas fa-toggle-off power-icon" @click="togglePowerPlug()"></i>
             {{ printer.name }}
           </div>
           <div v-if="hasCurrentPrintFilename" class="secondary-title print-filename">
@@ -286,6 +288,8 @@ export default {
       },
       webrtc: null,
       webcam: null,
+      powerPlugStatus: false,
+      forwardInterval: null,
     }
   },
   computed: {
@@ -387,6 +391,17 @@ export default {
       }
     )
     this.printerComm.connect()
+  },
+  mounted(){
+    this.getPowerPlugStatus()
+    this.forwardInterval = setInterval(() => {
+      this.getPowerPlugStatus()
+    }, 60000)
+  },
+  beforeDestroy() {
+    if (this.forwardInterval) {
+      clearInterval(this.forwardInterval)
+    }
   },
 
   methods: {
@@ -521,7 +536,24 @@ export default {
     sendPrinterAction(printerId, path) {
       axios.post(urls.printerAction(printerId, path))
     },
-
+    printerURL(){
+      return this.printer.powerplug_ip;
+    },
+    getPowerPlugStatus(){
+      if(this.printer.powerplug_ip)
+        axios.post(urls.powerPlugStatus(),{url: this.printer.powerplug_ip}).then(res => this.intepretPowerResponse(res.data.POWER))
+    },
+    togglePowerPlug(){
+      if(this.printer.powerplug_ip)
+        axios.post(urls.powerPlug(),{url: this.printer.powerplug_ip}).then(res => this.intepretPowerResponse(res.data.POWER))
+    },
+    intepretPowerResponse(power){
+      if(power === "ON"){
+        this.powerPlugStatus = true
+      } else {
+        this.powerPlugStatus = false;
+      }
+    },
     shouldVideoBeFull(printer) {
       let hasImage = get(printer, 'pic.img_url')
       let shouldBeThumb = printer.alertUnacknowledged() && hasImage

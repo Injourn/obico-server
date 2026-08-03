@@ -54,6 +54,7 @@ class Printer(SafeDeleteModel):
     }
 
     name = models.CharField(max_length=256, null=False)
+    powerplug_ip = models.CharField(max_length=255, blank=True, default='')
     auth_token = models.CharField(max_length=256, unique=True, null=False, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     current_print = models.OneToOneField('Print', on_delete=models.SET_NULL, null=True, blank=True, related_name='not_used')

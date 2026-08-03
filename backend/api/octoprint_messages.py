@@ -162,3 +162,8 @@ def update_print_stats_if_needed(printer_status, _print):
 
     if print_obj_dirty:
         _print.save()
+def powerplug_status(printer):
+    return {
+        'type': 'powerplug_status',   # or whatever type the plugin expects
+        'printer_id': printer.id,
+    }

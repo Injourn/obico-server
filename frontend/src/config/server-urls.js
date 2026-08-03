@@ -57,4 +57,8 @@ export default {
   jusprinChatMessages: (chat_id) => `/jusprin/api/chats/messages/`,
   jusprinPlateAnalysisProcess: () => '/jusprin/api/plate_analysis/',
   jusprinContactSupport: () => '/jusprin/api/contact_support/',
+
+  // PowerPlug
+  powerPlugStatus: () => '/api/v1/powerplug/status',
+  powerPlug: () => '/api/v1/powerplug',
 }

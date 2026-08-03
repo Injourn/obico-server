@@ -59,7 +59,7 @@ class BasePrinterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Printer
-        fields = ('id', 'name', 'created_at', 'action_on_failure',
+        fields = ('id', 'name','powerplug_ip', 'created_at', 'action_on_failure',
                   'watching_enabled', 'not_watching_reason',
                   'tools_off_on_pause', 'bed_off_on_pause', 'retract_on_pause',
                   'lift_z_on_pause', 'detective_sensitivity',

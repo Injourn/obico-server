@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+from . import powerplug_views
 from . import octoprint_views
 from . import viewsets
 
@@ -54,4 +55,6 @@ urlpatterns = [
     path('v1/octo/printer_events/', octoprint_views.PrinterEventView.as_view()),
 
     path('v1/version/', viewsets.ApiVersionView.as_view()),
+    path('v1/powerplug/status', powerplug_views.PowerPlugStatusView.as_view()),
+    path('v1/powerplug', powerplug_views.PowerPlugView.as_view()),
 ]

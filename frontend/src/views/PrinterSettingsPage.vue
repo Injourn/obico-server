@@ -70,6 +70,19 @@
                     </saving-animation>
                   </div>
                 </div>
+                <div class="form-group mb-4 mt-4" id="powerplug_ip">
+                  <div class="form-label text-muted mb-2">PowerPlug Domain or IP:</div>
+                  <saving-animation :errors="errorMessages.powerplug_ip" :saving="saving.powerplug_ip">
+                    <input
+                      id="id_powerplug_ip"
+                      type="text"
+                      name="powerplug_ip"
+                      v-model="printer.powerplug_ip"
+                      maxlength="255"
+                      class="form-control"
+                    >
+                  </saving-animation>
+                </div>
               </section>
               <section class="mt-5">
                 <h2 class="section-title">{{ $t("Failure Detection") }}</h2>
@@ -498,6 +511,14 @@ export default {
         this.printer.name = newValue
       },
     },
+    powerplugIp: {
+      get: function () {
+        return this.printer ? this.printer.powerplug_ip : undefined
+      },
+      set: function (newValue) {
+        this.printer.powerplug_ip = newValue
+      },
+    },
     detectiveSensitivity: {
       get() {
         return this.printer.detective_sensitivity
@@ -515,6 +536,11 @@ export default {
     printerName: function (newValue, oldValue) {
       if (oldValue !== undefined) {
         this.updateSetting('name')
+      }
+    },
+    powerplugIp: function(newValue,oldValue){
+      if (oldValue !== undefined) {
+        this.updateSetting('powerplug_ip')
       }
     },
     retractOnPause: function (newValue, oldValue) {
